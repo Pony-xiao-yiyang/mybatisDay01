@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- XML文件的标准头部 -->
+
+<!-- mybatis核心配置配置文件  -->
+
+<!-- 对当前XML 文件的标签名进行校验 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- mybatis配置的开始 -->
+<configuration>
+
+    <!-- 配置当前数据库的环境
+           environments  允许存在多钟数据库环境，通过default 属性进行数据环境的切换
+     -->
+    <environments default="development">
+        <!--
+            environment 配置一个数据库环境，id用来唯一标识当前环境
+         -->
+        <environment id="development">
+            <!--
+                  transactionManager  配置当前数据库环境，是否支持事务
+                    type
+                        JDBC      支持JDBC事务
+                        MANAGED   不支持事务
+             -->
+            <transactionManager type="JDBC"/>
+
+            <!--
+                   dataSource  配置数据源
+                        type  指定是否使用数据库连接池
+                             POOLED 使用数据库连接池——自带连接池
+                             UNPOOLED  不适用数据库连接池
+            -->
+            <dataSource type="POOLED">
+                <!-- JDBC驱动 -->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/j2001?serverTimezone=Asia/Shanghai"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 配置数据库sql对应mapper地址 -->
+    <mappers>
+        <mapper resource="UserMapper.xml"/>
+    </mappers>
+</configuration>

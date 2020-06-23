@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 定义当前为xml文件 -->
+
+
+<!-- 进行xml标签的格式校验  -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    mapper  数据库sql 映射的配置
+        通常推荐一张数据表对应一个mapper文件
+            如，UserMapper设置 和user表相关的所有的sql
+
+         namespace  命名空间，可以自定义
+                每一个sql对应一个id，为了保证id不重复
+                哪怕id重复了，不同命名空间+ id 也一定不重复
+-->
+<mapper namespace="aaa">
+
+     <!--
+        select 标签 用来编写查询语句
+            id  唯一id，同一mapper中不允许重复
+            resultType  指明当前结果类型, 使用全限定名
+     -->
+      <select id="findAll" resultType="com.rimi.mybatis.start.bean.User">
+          select * from book_sys_user
+      </select>
+</mapper>
