@@ -25,7 +25,11 @@
             id  唯一id，同一mapper中不允许重复
             resultType  指明当前结果类型, 使用全限定名
      -->
-      <select id="findAll" resultType="com.rimi.mybatis.start.bean.User">
+      <select id="findAll" resultType="user">
           select * from book_sys_user
       </select>
+
+      <insert id="addUser">
+          insert into book_sys_user values(null,'luc','123','fdv','2019-05-19 21:23:12','2001-10-01 10:23:43','dsafsdafsad')
+      </insert>
 </mapper>

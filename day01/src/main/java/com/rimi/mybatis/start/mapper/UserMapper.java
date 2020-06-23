@@ -20,4 +20,6 @@ public interface UserMapper {
      * @return
      */
     List<User> findAll();
+
+    int addUser();
 }
