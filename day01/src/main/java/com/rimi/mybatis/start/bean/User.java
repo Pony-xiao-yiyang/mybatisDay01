@@ -1,5 +1,9 @@
 package com.rimi.mybatis.start.bean;
 
+import jdk.nashorn.internal.objects.annotations.Constructor;
+import lombok.*;
+import org.apache.ibatis.annotations.ConstructorArgs;
+
 import java.util.Date;
 
 /**
@@ -7,12 +11,22 @@ import java.util.Date;
  * @Author luc
  * @Date 2020/6/10
  */
+
+// get方法
+//@Getter
+// set方法
+//@Setter
+// tostring方法
+//@ToString
+// 无参数构造方法
+//@NoArgsConstructor
+// 所有参数的构造
+//@AllArgsConstructor
+// 构建器
+//@Builder
+
+@Data
 public class User {
-    //亮亮
-///
-
-
-
 
     /**
      *  用户id
@@ -49,84 +63,4 @@ public class User {
      */
     private String headerImage;
 
-    public User() {
-    }
-
-    public User(Integer id, String username, String password, String nickname, Date insertTime, Date lastModifiedTime) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.insertTime = insertTime;
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public Date getInsertTime() {
-        return insertTime;
-    }
-
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
-    }
-
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
-    }
-
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public String getHeaderImage() {
-        return headerImage;
-    }
-
-    public void setHeaderImage(String headerImage) {
-        this.headerImage = headerImage;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", insertTime=" + insertTime +
-                ", lastModifiedTime=" + lastModifiedTime +
-                ", headerImage='" + headerImage + '\'' +
-                '}';
-    }
 }

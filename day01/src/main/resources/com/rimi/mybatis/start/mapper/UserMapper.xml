@@ -15,8 +15,10 @@
          namespace  命名空间，可以自定义
                 每一个sql对应一个id，为了保证id不重复
                 哪怕id重复了，不同命名空间+ id 也一定不重复
+
+                通常，namespace设置成河对应的mapper接口的全限定名保持一致
 -->
-<mapper namespace="aaa">
+<mapper namespace="com.rimi.mybatis.start.mapper.UserMapper">
 
      <!--
         select 标签 用来编写查询语句
