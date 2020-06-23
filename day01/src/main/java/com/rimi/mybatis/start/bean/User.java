@@ -1,8 +1,7 @@
 package com.rimi.mybatis.start.bean;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
 import lombok.*;
-import org.apache.ibatis.annotations.ConstructorArgs;
+
 
 import java.util.Date;
 
