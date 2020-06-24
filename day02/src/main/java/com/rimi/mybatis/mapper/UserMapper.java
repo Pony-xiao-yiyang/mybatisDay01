@@ -21,11 +21,51 @@ public interface UserMapper {
      *
      *
      */
-    User findUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+//    User findUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+
+    User findUserByUsernameAndPassword(User user);
+
 
     /**
      *  查询所有用户
      * @return
      */
     List<User> findAll();
+
+    /**
+     *  添加用户
+     * @param user
+     * @return
+     */
+    int addUser(User user);
+
+    /**
+     *  删除用户
+     * @param id
+     * @return
+     */
+    int deleteUserById(User user);
+
+    /**
+     *  修改用户，注意，修改用户一定有id
+     * @param user
+     * @return
+     */
+    int updateUser(User user);
+
+    /**
+     *  根据用户名或者昵称寻找用户
+     * @param user
+     * @return
+     */
+    List<User> findUserByUsernameOrNickname(User user);
+
+
+    /**
+     *  进行批量删除
+     * @param ids
+     * @return
+     */
+    int batchDeleteByIds(List<String> ids);
 }

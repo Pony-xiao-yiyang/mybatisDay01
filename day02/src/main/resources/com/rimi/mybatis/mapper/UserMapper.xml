@@ -10,6 +10,9 @@
             如果参数为普通类型的参数
                 没有设置名字，mybatis从左到右，取名param1 ....
                 @Param   自定义参数名
+
+            如果参数为对象
+                直接使用对象的属性名，作为占位符的参数
     -->
 
     <!--
@@ -22,11 +25,169 @@
 
 
     -->
-    <select id="findUserByUsernameAndPassword" resultType="user" >
-       select * from  book_sys_user where username = #{username} and password = #{password} limit 1
+
+    <!-- 提取sql片段，达到sql复用
+            id  当前sql片段的唯一id
+
+            sql 片段通过include标签，可以直接引用
+                include子标签 property
+
+                     ${} 单纯的变量的字符串替换，不包括占位符
+                        可以在sql片段中，直接替换include子标签property设置的值
+      -->
+    <sql id="select_book_user">
+        select ${col_name_list} from book_sys_user
+    </sql>
+
+
+    <!--select * from  book_sys_user where username = #{username} and password = #{password} limit 1-->
+    <select id="findUserByUsernameAndPassword" resultType="user"  >
+        <include refid="select_book_user" >
+            <property name="col_name_list" value="id,username,password" />
+        </include>
+         where username = #{username} and password = #{password}
     </select>
 
     <select id="findAll" resultType="user">
-       select * from book_sys_user;
+       <include refid="select_book_user"/>
     </select>
+
+    <!--
+            id   当前命名空间中的唯一修饰符
+            parameterType      参数类型，通常使用类型处理器自动推断
+            statementType       设置statement类型，默认使用prepare
+            useGeneratedKeys     使用自增长id，并取回自增长id，只用于insert和update
+            keyProperty         指明哪一个属性是主键对应的属性，只用于insert和update
+    -->
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+        insert into  book_sys_user values(
+           #{id},
+           #{username},
+           #{password},
+           #{nickname},
+           #{insertTime},
+           #{lastModifiedTime},
+           #{headerImage}
+        )
+    </insert>
+
+    <delete id="deleteUserById">
+        delete from book_sys_user where id = #{id}
+    </delete>
+
+    <!--
+           使用set标签解决动态sql的拼接问题
+    -->
+    <update id="updateUser">
+         update book_sys_user
+          <set>
+              <if test="id!=null">
+                  id = #{id},
+              </if>
+              <if test="username!=null">
+                  username = #{username},
+              </if>
+              <if test="password!=null">
+                  password = #{password},
+              </if>
+              <if test="nickname!=null">
+                  nickname = #{nickname},
+              </if>
+              <if test="insertTime!=null">
+                  insert_time = #{insertTime},
+              </if>
+              <if test="lastModifiedTime!=null">
+                  last_modified_time = #{lastModifiedTime},
+              </if>
+              <if test="headerImage!=null">
+                  header_image = #{headerImage},
+              </if>
+          </set>
+
+
+        where id = #{id}
+
+    </update>
+
+    <!--
+        动态sql
+            使用if进行动态拼接
+            注意： 需要随时维持一个永恒为真（and） 或者永恒为假（or）条件，用来简化sql拼接
+    -->
+    <!--<select id="findUserByUsernameOrNickname" resultType="com.rimi.mybatis.bean.User">-->
+        <!--select * from book_sys_user-->
+        <!--where-->
+          <!--1 != 1-->
+          <!--<if test="username!=''">-->
+              <!--or username = #{username}-->
+          <!--</if>-->
+          <!--<if test="nickname!=''">-->
+              <!--or  nickname = #{nickname}-->
+          <!--</if>-->
+
+    <!--</select>-->
+
+    <!--
+            如果username = ''或者null ，强制性查询admin，否则，正常查询
+            choose when otherwise 条件进行多选一判断
+                when 设置一个条件
+                otherwise 当上面的所有条件都不满足
+
+              注意： 需要随时维持一个永恒为真（and） 或者永恒为假（or）条件，用来简化sql拼接
+    -->
+    <!--<select id="findUserByUsernameOrNickname" resultType="com.rimi.mybatis.bean.User">-->
+        <!--select * from book_sys_user-->
+        <!--where-->
+            <!--1 != 1-->
+
+            <!--<choose>-->
+                <!--<when test="username==''">-->
+                    <!--or username = 'admin'-->
+                <!--</when>-->
+                <!--<when test="username==null">-->
+                    <!--or username = 'admin'-->
+                <!--</when>-->
+                <!--<otherwise>-->
+                    <!--or username = #{username}-->
+                <!--</otherwise>-->
+            <!--</choose>-->
+            <!--<if test="nickname!=''">-->
+                <!--or  nickname = #{nickname}-->
+            <!--</if>-->
+
+    <!--</select>-->
+
+    <!--
+        使用where拼接动态sql
+            保证一定不会出现以and or等逻辑运算符开头或者 只有where没有条件的情况
+    -->
+    <select id="findUserByUsernameOrNickname" resultType="com.rimi.mybatis.bean.User">
+        select * from book_sys_user
+        <where>
+            <if test="username!=''">
+                or username = #{username}
+            </if>
+            <if test="nickname!=''">
+                or  nickname = #{nickname}
+            </if>
+        </where>
+
+
+
+    </select>
+
+    <delete id="batchDeleteByIds">
+        delete from book_sys_user where id in
+         <!--(1,2,3,4,5)
+            foreach 进行循环迭代，通过循环拼接sql
+                collection  指明被迭代的类型
+                open   左边的开始字符串，只拼接一次
+                close  右边结束的字符串，只拼接一次
+                separator    指明，list中的对象，拼接中用哪个字符串进行分格
+                item       每次循环的循环变量
+         -->
+        <foreach collection="list" open="(" close=")" separator="," item="id1" >
+            #{id1}
+        </foreach>
+    </delete>
 </mapper>

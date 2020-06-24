@@ -1,5 +1,6 @@
 package com.rimi.mybatis.bean;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ import java.util.Date;
 //@Builder
 
 @Data
+@Builder
 public class User {
 
     /**
