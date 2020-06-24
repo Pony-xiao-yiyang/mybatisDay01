@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rimi.mybatis.mapper.UserMapper">
+
+    <!--
+        mybatis的参数绑定
+            使用#{} 声明占位符参数 ?,
+                ? 需要替换的值，写在#{值}}
+
+            如果参数为普通类型的参数
+                没有设置名字，mybatis从左到右，取名param1 ....
+                @Param   自定义参数名
+    -->
+
+    <!--
+        id 在命名空间中唯一的标识符
+        parameterType	指明当前mapper方法传入参数类型，推荐省略，使用mybtais的类型处理器自动推断
+        resultType      将查询结果集，映射到哪一种类型的java bean对象u, 可以使用权限定名或者别名
+                        如果返回类型是一个集合，resultType 指明集合中的java bean类型而不是本身
+        fetchSize   设置每一个结果集，从远程数据库，一次性取回的数据条数，通常让数据库自动调整
+        statementType   设置使用哪一种statement，默认是prepare，推荐不锈剑
+
+
+    -->
+    <select id="findUserByUsernameAndPassword" resultType="user" >
+       select * from  book_sys_user where username = #{username} and password = #{password} limit 1
+    </select>
+
+    <select id="findAll" resultType="user">
+       select * from book_sys_user;
+    </select>
+</mapper>
