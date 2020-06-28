@@ -39,6 +39,13 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
 
+        <!--
+            autoMappingBehavior 设置自动映射的规则
+                NONE    不自动映射
+                PARTIAL 简单结果映射
+                FULL    复杂结果映射
+        -->
+        <!--<setting name="autoMappingBehavior" value="FULL" />-->
         <setting name="logImpl" value="LOG4J2"/>
     </settings>
 

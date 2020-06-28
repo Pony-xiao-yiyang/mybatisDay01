@@ -1,7 +1,8 @@
 package com.rimi.day03.bean;
 
-import lombok.Builder;
+
 import lombok.Data;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 
@@ -25,7 +26,6 @@ import java.util.Date;
 //@Builder
 
 @Data
-@Builder
 public class User {
 
     /**
@@ -63,4 +63,22 @@ public class User {
      */
     private String headerImage;
 
+    private HuJiDi huji;
+
+//    public User(Integer id) {
+//        System.out.println("111111111");
+//        this.id = id;
+//    }
+//
+//    public User(Integer id, String headerImage) {
+//        System.out.println("222222222");
+//        this.id = id;
+//        this.headerImage = headerImage;
+//    }
+//
+//    public User(@Param("id") Integer id, @Param("time") Date insertTime, @Param("header") String headerImage) {
+//        this.id = id;
+//        this.insertTime = insertTime;
+//        this.headerImage = headerImage;
+//    }
 }

@@ -1,9 +1,16 @@
 package com.rimi.day03.service;
 
+import com.rimi.day03.bean.User;
+
+import java.util.List;
+
 /**
- * @description:
- * @author:
- * @time: 2020/6/28 9:52
+ * @Author luc
+ * @Date 2020/6/28
  */
 public interface UserService {
+
+    List<User> search(String keyword);
+
+    List<User> findAll();
 }

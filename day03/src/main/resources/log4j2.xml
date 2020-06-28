@@ -34,7 +34,7 @@
 
     -->
     <Loggers>
-        <Logger name="com.rimi.mybatis" level="trace"/>
+        <Logger name="com.rimi" level="trace"/>
         <!--<Logger name="org" level="trace"/>-->
         <Root level="debug">
             <!-- 应用名字叫做STDOUTD的输出方式  -->
