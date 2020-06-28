@@ -1,6 +1,6 @@
 package com.rimi.day03.bean;
 
-import lombok.Builder;
+
 import lombok.Data;
 import org.apache.ibatis.annotations.Param;
 

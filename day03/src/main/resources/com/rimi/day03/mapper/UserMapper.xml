@@ -8,7 +8,8 @@
          resultMap  自定义结果映射,默认和resultType规则一样
               属性：     id  结果映射的唯一id
                         type  结果映射的对象
-
+                        autoMapping="true"  等价于  autoMappingBehavior 为FULL
+                                     false  等价于  autoMappingBehavior 为NONE
               子标签：
                     id 标签：  设置主键的属性名和列名
 
@@ -28,6 +29,7 @@
                         使用构造方法注入数据，如果没有指定@Param的参数名，默认按照从左到右的顺序，根据参数的类型去匹配
                                               如果指定了所有参数的@Param的参数名， 顺序可以自定义
                    association   关联标签，用于”有一个“的多表关联查询
+                        方案一
                         关联的嵌套 Select 查询
                                先查询第一张表，然后根据关联字段的关联id， 再查询第二张表，最后将数据整合
                                 属性：
@@ -35,10 +37,21 @@
                                     column   关联关系的关联id所在列的列名
                                     javaType   当前属性对应的数据库实体java bean的名称
                                     select      第二次查询执行的sql语句
-    -->
-    <resultMap id="userMap" type="user" >
-        <id property="id" column="id" />
+                             <association property="huji" column="huji_id" javaType="com.rimi.day03.bean.HuJiDi" select="com.rimi.day03.mapper.HuJiDiMapper.findHuJiDiById" />
+                        方案二
+                            关联的嵌套结果映射
+                                使用连接查询进行多表查询
+                                注意: mybatis 默认只对简单结果进行自动映射
+                                    autoMapping   是否开启自动映射，默认关闭
+                                    columnPrefix  统一添加前缀
 
+                        <association property="huji" javaType="com.rimi.day03.bean.HuJiDi" autoMapping="true" columnPrefix="h_">
+                            <result property="paiChuSuo" column="pcs" />
+                        </association>
+    -->
+    <resultMap id="userMap" type="user" autoMapping="true" >
+        <id property="id" column="id" />
+        <result property="username" column="username"/>
         <result property="insertTime" column="insert_time"/>
 
         <!--<constructor>-->
@@ -47,9 +60,20 @@
             <!--<arg column="header_image" javaType="string" name="header"/>-->
             <!--<arg column="insert_time" javaType="date" name="time"/>-->
         <!--</constructor>-->
-        
-        <association property="huji" column="huji_id" javaType="com.rimi.day03.bean.HuJiDi" select="com.rimi.day03.mapper.HuJiDiMapper.findHuJiDiById">
 
+
+        <!--<association property="huji" column="huji_id" javaType="com.rimi.day03.bean.HuJiDi" select="com.rimi.day03.mapper.HuJiDiMapper.findHuJiDiById" />-->
+
+        <!--
+            如果两张表之前没有重复的列名，可以直接使用自动映射
+                如果一旦重复，先给sql语句，的结果，设置别名，带统一前缀，通过指定前缀名，才可以完成自动映射
+         -->
+        <!--<association property="huji" javaType="com.rimi.day03.bean.HuJiDi" autoMapping="true" columnPrefix="h_">-->
+            <!--<result property="paiChuSuo" column="pcs" />-->
+        <!--</association>-->
+        <association property="huji" javaType="com.rimi.day03.bean.HuJiDi" autoMapping="true">
+            <id property="id" column="h_id"/>
+            <result property="paiChuSuo" column="pcs" />
         </association>
     </resultMap>
 
@@ -65,7 +89,34 @@
     <!--
         通过select 标签的resultMap属性进行关联，关联到resultMap的id
     -->
+    <!--<select id="findAll" resultMap="userMap">-->
+        <!--select * from book_sys_user-->
+    <!--</select>-->
+
+    <!--<select id="findAll" resultMap="userMap">-->
+        <!--select-->
+            <!--u.id as id,-->
+            <!--u.username as username,-->
+            <!--u.password as password,-->
+            <!--u.nickname as nickname,-->
+            <!--u.insert_time as insert_time,-->
+            <!--u.last_modified_time as last_modified_time,-->
+            <!--u.header_image as header_image,-->
+            <!--h.id as h_id,-->
+            <!--h.hu_ji_di as h_hu_ji_di,-->
+            <!--h.pcs as h_pcs,-->
+            <!--h.idcard as h_idcard,-->
+            <!--h.join_time as h_join_time-->
+        <!--from book_sys_user u-->
+        <!--join book_sys_user_hj h-->
+        <!--on u.huji_id = h.id-->
+    <!--</select>-->
+
     <select id="findAll" resultMap="userMap">
-        select * from book_sys_user
+        select
+            *
+        from book_sys_user u
+        join book_sys_user_hj h
+        on u.huji_id = h.h_id
     </select>
 </mapper>
