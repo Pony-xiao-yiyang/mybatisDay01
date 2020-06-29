@@ -57,7 +57,7 @@
         <!--<constructor>-->
             <!--<idArg column="user_id" javaType="integer" name="id"/>-->
 
-            <!--<arg column="header_image" javaType="string" name="header"/>-->-+
+            <!--<arg column="header_image" javaType="string" name="header"/>-->
             <!--<arg column="insert_time" javaType="date" name="time"/>-->
         <!--</constructor>-->
 
@@ -75,6 +75,28 @@
             <id property="id" column="h_id"/>
             <result property="paiChuSuo" column="pcs" />
         </association>
+
+        <!--
+              collection  集合标签，用来表述“有多个"的关联关系
+                方案一：
+                    集合的嵌套 Select 查询
+                        先查第一张表，通过关联的id字段，查询第二张和第三张表
+                            property  java bean对象中，对应的集合的属性名
+                            javaType    当前集合的类型
+                            ofType      集合中的真实类型
+
+                            二次查询： 根据user表的user id，查询出当前user的所有的role角色信息
+                                    column      用哪一列进行关联查询
+                                    select      根据用户id，查询用户对应的所有的角色信息
+                        <collection property="roles" javaType="arraylist" column="id" ofType="role" select="com.rimi.day03.mapper.RoleMapper.findRoleByUserId" />
+                方案二：
+                    集合的嵌套结果映射
+
+
+        -->
+        <!--<collection property="roles" javaType="arraylist" column="id" ofType="role" select="com.rimi.day03.mapper.RoleMapper.findRoleByUserId" />-->
+
+
     </resultMap>
 
 

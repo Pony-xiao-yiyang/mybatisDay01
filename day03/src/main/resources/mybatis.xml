@@ -62,6 +62,26 @@
         <package name="com.rimi.day03.bean" />
     </typeAliases>
 
+    <!--
+        配置mybatis插件
+    -->
+    <plugins>
+        <!--
+            一个插件
+            interceptor  配置使用的插件的拦截地址
+        -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 使用下面的方式配置参数，后面会有所有的参数介绍 -->
+            <!--<property name="param1" value="value1"/>-->
+
+            <!-- pageSizeZero 当每页大小为0的的处理方式，true查询所有结果，false -->
+            <property name="pageSizeZero" value="true" />
+
+            <!-- reasonable 参数合理化   当页码下标超出边界，会自动进行页码校正 -->
+            <property name="reasonable" value="true" />
+        </plugin>
+    </plugins>
+
     <!-- 配置当前数据库的环境
            environments  允许存在多钟数据库环境，通过default 属性进行数据环境的切换
      -->

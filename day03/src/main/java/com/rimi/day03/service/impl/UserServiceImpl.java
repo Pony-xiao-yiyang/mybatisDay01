@@ -1,5 +1,8 @@
 package com.rimi.day03.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rimi.day03.bean.User;
 import com.rimi.day03.mapper.UserMapper;
 import com.rimi.day03.service.UserService;
@@ -30,6 +33,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
 
-        return userMapper.findAll();
+        PageHelper.startPage(-4,5);
+//        Page<User> pages = (Page<User>) userMapper.findAll();
+
+        List<User> users = userMapper.findAll();
+        PageInfo<User> pages = PageInfo.of(users);
+
+
+        for(User user: users) {
+            System.out.println(user);
+        }
+
+        System.out.println(pages);
+
+        return null;
     }
 }
