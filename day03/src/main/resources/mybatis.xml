@@ -37,6 +37,9 @@
                         默认读取，类加载路径下的log4j2.xml 或者log4j2.properties 的配置
      -->
     <settings>
+
+
+
         <setting name="mapUnderscoreToCamelCase" value="true"/>
 
         <!--

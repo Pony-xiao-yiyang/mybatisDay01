@@ -3,6 +3,10 @@
 
 <mapper namespace="com.rimi.day03.mapper.UserMapper">
 
+    <!--
+        给当前数据表user表开启二级缓存
+     -->
+    <cache/>
 
     <!--
          resultMap  自定义结果映射,默认和resultType规则一样
@@ -91,12 +95,17 @@
                         <collection property="roles" javaType="arraylist" column="id" ofType="role" select="com.rimi.day03.mapper.RoleMapper.findRoleByUserId" />
                 方案二：
                     集合的嵌套结果映射
-
+                        利用连接查询来进行集合映射
+                            property  指明属性名
+                            ofType      指明集合中真实的对象类型
 
         -->
         <!--<collection property="roles" javaType="arraylist" column="id" ofType="role" select="com.rimi.day03.mapper.RoleMapper.findRoleByUserId" />-->
 
-
+        <collection property="roles" ofType="role" autoMapping="true" columnPrefix="r_">
+            <id property="id" column="role_id" />
+            <result property="roleSymbol" column="role_expression" />
+        </collection>
     </resultMap>
 
 
@@ -140,5 +149,31 @@
         from book_sys_user u
         join book_sys_user_hj h
         on u.huji_id = h.h_id
+    </select>
+
+    <!--<select id="findUserOnlyRole" resultMap="userMap">-->
+
+         <!--select-->
+              <!--u.id as id,-->
+              <!--u.username as username,-->
+              <!--u.password as password,-->
+              <!--u.nickname as nickname,-->
+              <!--u.header_image as header_image,-->
+              <!--u.insert_time as insert_time,-->
+              <!--u.last_modified_time as last_modified_time,-->
+              <!--r.role_id as r_role_id,-->
+              <!--r.role_name as r_role_name,-->
+              <!--r.role_expression as r_role_expression,-->
+              <!--r.insert_time as r_insert_time,-->
+              <!--r.last_modified_time as r_last_modified_time-->
+         <!--from book_sys_user u-->
+         <!--join book_sys_user_role ur-->
+         <!--on u.id = ur.user_id-->
+         <!--join book_sys_role r-->
+         <!--on ur.role_id = r.role_id-->
+    <!--</select>-->
+
+    <select id="findUserOnlyRole" resultType="user">
+        select * from book_sys_user
     </select>
 </mapper>

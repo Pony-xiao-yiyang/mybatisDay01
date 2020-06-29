@@ -13,4 +13,6 @@ public interface UserService {
     List<User> search(String keyword);
 
     List<User> findAll();
+
+    List<User> findAllOnlyRole();
 }

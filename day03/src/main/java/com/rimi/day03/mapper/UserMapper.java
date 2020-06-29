@@ -18,4 +18,10 @@ public interface UserMapper {
     List<User> findUserByUsernameLike(String keywords);
 
     List<User> findAll();
+
+    /**
+     *  获取所有用户的角色
+     * @return
+     */
+    List<User> findUserOnlyRole();
 }
