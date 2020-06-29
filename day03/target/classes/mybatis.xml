@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- XML文件的标准头部 -->
+
+<!-- mybatis核心配置配置文件  -->
+
+<!-- 对当前XML 文件的标签名进行校验 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- mybatis配置的开始 -->
+<configuration>
+
+    <!-- properties 设置属性
+                1. 利用property 标签设置属性
+                    <property name="username" value="root"/>
+                2. 利用resource属性，引入外部的资源文件
+                        <properties resource="datasource/datasource.properties">
+                3  利用url 属性，引入外部的资源文件
+
+                properties 存在优先级
+                    java 设置的  > 外部资源文件  > property 标签
+      -->
+    <properties resource="datasource/datasource.properties">
+
+    <!--<properties url="file:///work/ideaproject/j2001-mybatis/day01/src/main/resources/datasource/datasource.properties">-->
+        <property name="jdbc.username" value="root1"/>
+    </properties>
+
+    <!--
+        配置当前mybatis的可选配置项
+
+               mapUnderscoreToCamelCase 驼峰转换。默认不转换
+               logImpl    设置日志记录方式。默认不记录日志
+                    STDOUT_LOGGING  标准输出方式
+                    LOG4J2  采用log4j2 专业的日志工具
+                        默认读取，类加载路径下的log4j2.xml 或者log4j2.properties 的配置
+     -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+        <!--
+            autoMappingBehavior 设置自动映射的规则
+                NONE    不自动映射
+                PARTIAL 简单结果映射
+                FULL    复杂结果映射
+        -->
+        <!--<setting name="autoMappingBehavior" value="FULL" />-->
+        <setting name="logImpl" value="LOG4J2"/>
+    </settings>
+
+
+    <!--
+        为java类型区别名
+            typeAlias 给单个java类取别名
+            package  对当钱包下的类自动取别名，默认首字母小写
+
+    -->
+    <typeAliases>
+
+        <!--<typeAlias type="com.rimi.mybatis.start.bean.User" alias="user1"/>-->
+        <package name="com.rimi.day03.bean" />
+    </typeAliases>
+
+    <!-- 配置当前数据库的环境
+           environments  允许存在多钟数据库环境，通过default 属性进行数据环境的切换
+     -->
+    <environments default="development">
+        <!--
+            environment 配置一个数据库环境，id用来唯一标识当前环境
+         -->
+        <environment id="development">
+            <!--
+                  transactionManager  配置当前数据库环境，是否支持事务
+                    type
+                        JDBC      支持JDBC事务
+                        MANAGED   不支持事务
+
+                      mybatis 事务需要手动提交
+             -->
+            <transactionManager type="JDBC"/>
+
+            <!--
+                   dataSource  配置数据源
+                        type  指定是否使用数据库连接池
+                             POOLED 使用数据库连接池——自带连接池
+                             UNPOOLED  不适用数据库连接池
+            -->
+            <dataSource type="POOLED">
+                <!-- JDBC驱动 -->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <!-- 利用$表达式，获取属性的值 -->
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="real">
+            <!--
+                  transactionManager  配置当前数据库环境，是否支持事务
+                    type
+                        JDBC      支持JDBC事务
+                        MANAGED   不支持事务
+             -->
+            <transactionManager type="JDBC"/>
+
+            <!--
+                   dataSource  配置数据源
+                        type  指定是否使用数据库连接池
+                             POOLED 使用数据库连接池——自带连接池
+                             UNPOOLED  不适用数据库连接池
+            -->
+            <dataSource type="POOLED">
+                <!-- JDBC驱动 -->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <!-- 利用$表达式，获取属性的值 -->
+                <property name="username" value="root1"/>
+                <property name="password" value="123"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 配置数据库sql对应mapper地址
+            方案1： 使用mapper resource属性，指明哪一个映射文件，需要被引入
+                      <mapper resource="com/rimi/mybatis/start/mapper/UserMapper.xml"/>
+
+            方案2： 使用url属性，引入
+                            <mapper url="file:///work/ideaproject/j2001-mybatis/day01/src/main/resources/UserMapper.xml"/>
+
+            方案3:  使用接口的全限定名扫描对应的xml
+                        前提： 接口和xml在编译后同包
+                            <mapper class="com.rimi.mybatis.start.mapper.UserMapper"/>
+
+            方案4： 指定mapper接口。对所有的接口全部扫描，加载所有接口对应的xml文件
+                    <package name="com.rimi.mybatis.start.mapper" />
+     -->
+    <mappers>
+        <!--<mapper resource="com/rimi/mybatis/start/mapper/UserMapper.xml"/>-->
+
+        <!--<mapper url="file:///work/ideaproject/j2001-mybatis/day01/src/main/resources/UserMapper.xml"/>-->
+
+        <!--<mapper class="com.rimi.mybatis.start.mapper.UserMapper"/>-->
+
+        <package name="com.rimi.day03.mapper" />
+    </mappers>
+</configuration>

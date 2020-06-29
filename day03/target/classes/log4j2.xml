@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?> <!-- 标志当前文件为xml -->
+
+<!--
+        Configuration 进行log4j2 的配置
+ -->
+<Configuration>
+    <!--
+        Appenders 配置日志的输出方式，如控制台输出，文件输出，文件切割输出等
+    -->
+    <Appenders>
+        <!--  配置了一个名字叫做stdout的输出方式，  输出的目的地为 SYSTEM_OUT 系统的控制台输出 -->
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <!-- 配置日志的输出格式
+                %d   日期
+                %p   当前日志输出级别
+                $t   当前线程
+                %C   当前哪一个类在输出
+                %F   哪一个文件的输出
+                %L   当前文件哪一行的输出
+                %m%n 输出的内容
+             -->
+            <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+        </Console>
+    </Appenders>
+
+
+    <!--
+        Loggers 根据不同的请情况（类名或者包名），指明当前日志的 日志级别和 日志的appender输出方式
+            Root  默认的日志记录级别和日志记录方式
+                    如果一个类或者包中类，没有指明日志记录方式，默认采用root
+                 level   指明日志的记录方式
+
+            Logger 对不同的类或者不同包，自定义日志记录的方式
+
+    -->
+    <Loggers>
+        <Logger name="com.rimi" level="trace"/>
+        <!--<Logger name="org" level="trace"/>-->
+        <Root level="debug">
+            <!-- 应用名字叫做STDOUTD的输出方式  -->
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>
