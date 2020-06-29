@@ -32,4 +32,12 @@ public class UserServiceImplTest {
 
         System.out.println(users);
     }
+
+    @Test
+    public void findAllOnlyRole() {
+        UserService userService = new UserServiceImpl();
+        List<User> onlyRole = userService.findAllOnlyRole();
+
+        System.out.println(onlyRole);
+    }
 }

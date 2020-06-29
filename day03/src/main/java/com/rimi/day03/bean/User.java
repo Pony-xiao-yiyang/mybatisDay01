@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *  对应数据库中用户的实体表， 和数据表字段名一一对应，多个单词推荐由下划线转驼峰
@@ -64,6 +65,11 @@ public class User {
     private String headerImage;
 
     private HuJiDi huji;
+
+    /**
+     *  java bean 描述有多个的关联关系
+     */
+    private List<Role> roles;
 
 //    public User(Integer id) {
 //        System.out.println("111111111");
